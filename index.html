@@ -1,1 +1,41 @@
-init
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send POST Request</title>
+</head>
+<body>
+    <h1>Send POST Request to 192.168.20.100</h1>
+    <button id="sendRequestBtn">Send Request</button>
+
+    <script>
+        // Check if the data exists in localStorage and send the request when the button is clicked
+        document.getElementById('sendRequestBtn').addEventListener('click', function() {
+            // Retrieve the stored string from localStorage
+            let storedData = localStorage.getItem("string");
+
+            // Check if there is any stored data
+            if (!storedData) {
+                alert("No data found in localStorage!");
+                return;
+            }
+
+            // Define the request payload
+            let data = { value: storedData };
+
+            // Send the POST request
+            fetch("http://192.168.20.100", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json()) // Handle response
+            .then(result => console.log("Success:", result))
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+</body>
+</html>
